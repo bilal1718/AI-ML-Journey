@@ -5,38 +5,35 @@ import pandas as pd
 
 app = Flask(__name__)
 CORS(app)
+
 original_dataset = pd.read_csv('C:/Users/hp/Desktop/2015-building-energy-benchmarking.csv')
+
 columns_to_keep = [
     'BuildingType', 'PrimaryPropertyType', 'YearBuilt', 'NumberofBuildings',
     'NumberofFloors', 'PropertyGFATotal', 'PropertyGFAParking',
     'PropertyGFABuilding', 'SiteEnergyUse', 'Electricity',
     'NaturalGas', 'SiteEUI(kBtu/sf)'
 ]
-cleaned_dataset = original_dataset[columns_to_keep].copy()
-cleaned_dataset = cleaned_dataset.dropna()
+
+cleaned_dataset = original_dataset[columns_to_keep].dropna()
+
 categorical_cols = cleaned_dataset.select_dtypes(include=['object']).columns
 
-def label_encode(dataset, column):
-    unique_categories = dataset[column].unique()
-    category_to_int = {category: idx for idx, category in enumerate(unique_categories)}
-    dataset[column + '_Encoded'] = dataset[column].map(category_to_int)
-    return dataset
-
+category_to_int_map = {}
 for col in categorical_cols:
-    cleaned_dataset = label_encode(cleaned_dataset, col)
-
-encoded_columns = [col + '_Encoded' for col in categorical_cols]
-cleaned_dataset = cleaned_dataset.drop(columns=categorical_cols)
+    unique_categories = cleaned_dataset[col].unique()
+    category_to_int_map[col] = {category: idx for idx, category in enumerate(unique_categories)}
+    cleaned_dataset[col] = cleaned_dataset[col].map(category_to_int_map[col])
 
 X = cleaned_dataset.drop(columns=["SiteEUI(kBtu/sf)"])
 y = cleaned_dataset["SiteEUI(kBtu/sf)"]
 
-def scaled_features(X_input):
-    X_mean = np.mean(X, axis=0)
-    X_std = np.std(X, axis=0)
+def scaled_features(X_input, X_mean, X_std):
     return (X_input - X_mean) / X_std
 
-X_scaled = scaled_features(X)
+X_mean = np.mean(X, axis=0)
+X_std = np.std(X, axis=0)
+X_scaled = scaled_features(X, X_mean, X_std)
 
 def train_linear_regression(X, y, alpha=0.001, num_iters=2000):
     b = 0
@@ -61,26 +58,34 @@ w, b, cost_history = train_linear_regression(X_scaled.to_numpy(), y.to_numpy())
 def predict():
     data = request.json
     user_input_df = pd.DataFrame([data])
-    print("User Input DataFrame:")
+    print("User Input:")
     print(user_input_df)
 
     for col in categorical_cols:
         if col in user_input_df.columns:
-            user_input_df = label_encode(user_input_df, col)
+            user_input_df[col] = user_input_df[col].map(lambda x: category_to_int_map[col].get(x, -1))
 
     for col in X.columns:
         if col not in user_input_df.columns:
             user_input_df[col] = 0
-        else:
-            if user_input_df[col].dtype == 'object':
-                user_input_df[col] = pd.to_numeric(user_input_df[col], errors='coerce')
-    # Log the processed user input
-    print("Processed User Input DataFrame:")
-    print(user_input_df)
+
     user_input_df = user_input_df[X.columns]
-    user_input_scaled = scaled_features(user_input_df)
+    user_input_scaled = scaled_features(user_input_df, X_mean, X_std)
+    print("Processes User Input:")
+    print(user_input_df)
+
     prediction = np.dot(user_input_scaled.to_numpy(), w) + b
     return jsonify({'prediction': prediction[0]})
+@app.route('/get-historical-data', methods=['GET'])
+def get_historical_data():
+    historical_data = cleaned_dataset[['SiteEUI(kBtu/sf)',
+                                        'PropertyGFATotal', 
+                                        'YearBuilt', 'NumberofBuildings', 'NumberofFloors',
+                                          'Electricity', 'NaturalGas',
+                                            'PrimaryPropertyType','BuildingType',
+                                           'PropertyGFAParking','PropertyGFABuilding',
+                                             'SiteEnergyUse' ]].to_dict(orient='list')
+    return jsonify(historical_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -1,9 +1,29 @@
 import './App.css'
-import { useState } from 'react';
+import { useState , useEffect} from 'react';
 import axios from 'axios';
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale
+} from 'chart.js';
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  Legend,
+  LineElement,
+  PointElement,
+  CategoryScale,
+  LinearScale
+);
 
 function App() {
-  const [prediction, setPrediction] = useState(null);
   const [formData, setFormData] = useState({
     BuildingType: '',
     PrimaryPropertyType: '',
@@ -17,7 +37,22 @@ function App() {
     Electricity: '',
     NaturalGas: ''
   });
+  const [prediction, setPrediction] = useState(null);
+  const [showForm, setShowForm] = useState(true);
+  const [historicalData, setHistoricalData] = useState(null);
 
+  useEffect(() => {
+    async function fetchHistoricalData() {
+      try {
+        const response = await axios.get('http://127.0.0.1:5000/get-historical-data');
+        setHistoricalData(response.data);
+      } catch (error) {
+        console.error('Error fetching historical data:', error);
+      }
+    }
+  
+    fetchHistoricalData();
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -25,6 +60,7 @@ function App() {
       [name]: value
     });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -44,11 +80,123 @@ function App() {
     try {
       const response = await axios.post('http://127.0.0.1:5000/predict', numericData);
       console.log('Prediction:', response.data.prediction);
-      setPrediction(response.data.prediction)
+      setPrediction(response.data.prediction);
+      setShowForm(false);
     } catch (error) {
       console.error('Error making prediction:', error);
     }
   };
+
+  const chartData = {
+    labels: historicalData ? historicalData['SiteEUI(kBtu/sf)'] : [],
+    datasets: [
+      {
+        label: 'Property GFA Total',
+        data: historicalData ? historicalData['PropertyGFATotal'] : [],
+        borderColor: '#3b82f6',
+        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'Electricity',
+        data: historicalData ? historicalData['Electricity'] : [],
+        borderColor: '#f87171',
+        backgroundColor: 'rgba(248, 113, 113, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'Natural Gas',
+        data: historicalData ? historicalData['NaturalGas'] : [],
+        borderColor: '#34d399',
+        backgroundColor: 'rgba(52, 211, 153, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'YearBuilt',
+        data: historicalData ? historicalData['YearBuilt'] : [],
+        borderColor: '#631f1f',
+        backgroundColor: 'rgba(99, 31, 31,0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'NumberofBuildings',
+        data: historicalData ? historicalData['NumberofBuildings'] : [],
+        borderColor: '#98a3a2',
+        backgroundColor: 'rgba(152, 163, 162,0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'NumberofFloors',
+        data: historicalData ? historicalData['NumberofFloors'] : [],
+        borderColor: '#36f000',
+        backgroundColor: 'rgba(52, 255, 153, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'PrimaryPropertyType',
+        data: historicalData ? historicalData['PrimaryPropertyType'] : [],
+        borderColor: '#dbc51d',
+        backgroundColor: 'rgba(219, 197, 29, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'SiteEnergyUse',
+        data: historicalData ? historicalData['SiteEnergyUse'] : [],
+        borderColor: '#3d4207',
+        backgroundColor: 'rgba(61, 66, 7, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'BuildingType',
+        data: historicalData ? historicalData['BuildingType'] : [],
+        borderColor: '#d42f9d',
+        backgroundColor: 'rgba(212, 47, 157, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'PropertyGFAParking',
+        data: historicalData ? historicalData['PropertyGFAParking'] : [],
+        borderColor: '#0f0b0e',
+        backgroundColor: 'rgba(15, 11, 14, 0.2)',
+        borderWidth: 2,
+      },
+      {
+        label: 'PropertyGFABuilding',
+        data: historicalData ? historicalData['PropertyGFABuilding'] : [],
+        borderColor: '#a619bf',
+        backgroundColor: 'rgba(166, 25, 191, 0.2)',
+        borderWidth: 2,
+      }
+    ],
+  };
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      tooltip: {
+        callbacks: {
+          label: (context) => `Value: ${context.raw}`,
+        },
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Site EUI',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Value',
+        },
+      },
+    },
+  };
+  
   return (
     <>
       <link
@@ -68,6 +216,7 @@ function App() {
               </div>
             </div>
             <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
+            {showForm ? (
               <form onSubmit={handleSubmit}>
                 <h6 className="text-blueGray-400 text-sm mt-3 mb-6 font-bold uppercase">
                   Building Details
@@ -155,44 +304,69 @@ function App() {
                   Property Details
                 </h6>
                 <div className="flex flex-wrap">
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block text-blueGray-600 text-sm font-bold mb-2"
-                        htmlFor="BuildingType_Encoded"
-                      >
-                        Building Type
-                      </label>
-                      <input
-                        type="number"
-                        name="BuildingType_Encoded"
-                        id="BuildingType_Encoded"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Enter building type"
-                        value={formData.BuildingType_Encoded}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className="relative w-full mb-3">
-                      <label
-                        className="block text-blueGray-600 text-sm font-bold mb-2"
-                        htmlFor="PrimaryPropertyType_Encoded"
-                      >
-                        Primary Property Type
-                      </label>
-                      <input
-                        type="number"
-                        name="PrimaryPropertyType_Encoded"
-                        id="PrimaryPropertyType_Encoded"
-                        className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                        placeholder="Enter property type"
-                        value={formData.PrimaryPropertyType_Encoded}
-                        onChange={handleChange}
-                      />
-                    </div>
-                  </div>
+                <div className="w-full lg:w-6/12 px-4">
+  <div className="relative w-full mb-3">
+    <label
+      className="block text-blueGray-600 text-sm font-bold mb-2"
+    >
+      Building Type
+    </label>
+    <select
+      name="BuildingType"
+      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+      value={formData.BuildingType}
+      onChange={handleChange}
+    >
+      <option value="">Select building type</option>
+      <option value="NonResidential">NonResidential</option>
+      <option value="SPS-District K-12">SPS-District K-12</option>
+      <option value="Multifamily MR (5-9)">Multifamily MR (5-9)</option>
+      <option value="Multifamily LR (1-4)">Multifamily LR (1-4)</option>
+      <option value="Campus">Campus</option>
+      <option value="Multifamily HR (10+)">Multifamily HR (10+)</option>
+      <option value="Nonresidential COS">Nonresidential COS</option>
+    </select>
+  </div>
+</div>
+
+<div className="w-full lg:w-6/12 px-4">
+  <div className="relative w-full mb-3">
+    <label
+      className="block text-blueGray-600 text-sm font-bold mb-2"
+    >
+      Primary Property Type
+    </label>
+    <select
+      name="PrimaryPropertyType"
+      className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+      value={formData.PrimaryPropertyType}
+      onChange={handleChange}
+    >
+      <option value="">Select property type</option>
+      <option value="Other">Other</option>
+      <option value="Non-Refrigerated Warehouse">Non-Refrigerated Warehouse</option>
+      <option value="Mixed Use Property">Mixed Use Property</option>
+      <option value="Low-Rise Multifamily">Low-Rise Multifamily</option>
+      <option value="Mid-Rise Multifamily">Mid-Rise Multifamily</option>
+      <option value="High-Rise Multifamily">High-Rise Multifamily</option>
+      <option value="K-12 School">K-12 School</option>
+      <option value="Worship Facility">Worship Facility</option>
+      <option value="Small- and Mid-Sized Office">Small- and Mid-Sized Office</option>
+      <option value="College/University">College/University</option>
+      <option value="Senior Care Community">Senior Care Community</option>
+      <option value="Refrigerated Warehouse">Refrigerated Warehouse</option>
+      <option value="Large Office">Large Office</option>
+      <option value="Hotel">Hotel</option>
+      <option value="Retail Store">Retail Store</option>
+      <option value="Medical Office">Medical Office</option>
+      <option value="Restaurant">Restaurant</option>
+      <option value="Hospital">Hospital</option>
+      <option value="Supermarket/Grocery Store">Supermarket/Grocery Store</option>
+      <option value="Residence Hall/Dormitory">Residence Hall/Dormitory</option>
+    </select>
+  </div>
+</div>
+
                   <div className="w-full lg:w-6/12 px-4">
                     <div className="relative w-full mb-3">
                       <label
@@ -295,26 +469,50 @@ function App() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-end mt-6">
-                  <button
-                    type="submit"
-                    className="bg-blueGray-600 text-white active:bg-blueGray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 ease-linear transition-all duration-150"
-                  >
-                    Submit
-                  </button>
-                </div>
+                <div className="text-center mt-4">
+                    <button
+                      type="submit"
+                      className="bg-blue-500 text-white
+                       active:bg-blue-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
+                    >
+                      Get Prediction
+                    </button>
+                  </div>
               </form>
-              {prediction && (
-                <div className="mt-6 p-4 bg-white rounded shadow-md">
-                  <h3 className="text-lg font-bold">Prediction</h3>
-                  <p className="mt-2 text-blueGray-600">{prediction}</p>
+            ) : (
+              <>
+              <div className="text-center py-10">
+                <div className="bg-white shadow-lg rounded-lg p-6">
+                  <h3 className="text-2xl font-bold text-blueGray-700 mb-4">
+                    Prediction Result
+                  </h3>
+                  <p className="text-blueGray-600 text-lg">
+                    The predicted Site Energy Use Intensity (EUI) is:
+                  </p>
+                  <div className="mt-4 p-4 bg-blueGray-100 rounded">
+                    <h2 className="text-xl font-semibold text-blueGray-700">
+                      {prediction}  kBtu/sf
+                    </h2>
+                  </div>
+                  <button onClick={() => setShowForm(true)} className="bg-blue-500 mt-6 text-white px-4 py-2 rounded">
+            Make Another Prediction
+          </button>
                 </div>
-              )}
+              </div>
+              {historicalData && (
+        <div>
+          <h3 className="text-center text-xl font-bold mb-4">Historical Data</h3>
+          <Line data={chartData} options={options} />
+        </div>
+      )}
+              </>
+            )}
+
+    </div>
             </div>
           </div>
-        </div>
       </section>
-    </>
+      </>
   );
 }
 
