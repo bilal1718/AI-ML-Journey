@@ -1,16 +1,16 @@
-# Best Practices for Training ML Model
+# Best Practices for Training ML Models
 
 ## Evaluating The Model
 
-* Split the data into three parts:
+* **Split the data into three parts:**
   - **Training Set**
   - **Cross Validation Set**
   - **Test Set**
 
-* Train the model using the training set, then perform cross-validation to find the best model based on the lowest loss value.
-* Finally, test the selected model on the test set to evaluate its performance.
+* **Train the model** using the training set, then perform cross-validation to find the best model based on the lowest loss value.
+* **Finally, test the selected model** on the test set to evaluate its performance.
 
-## Diagnosing the Bias and Variance
+## Diagnosing Bias and Variance
 
 ### Key Concepts
 
@@ -50,6 +50,25 @@
 3. **Balanced Model**
    - **Indicators**: Both training error and cross-validation error are low and similar.
    - **Actions**: Continue with the current model or fine-tune hyperparameters for potential improvements.
+
+### Establishing a Baseline Level of Performance
+
+When evaluating your model, it's crucial to establish a baseline level of performance to accurately diagnose bias and variance. 
+
+**What is a Baseline Performance?**
+- **Baseline Performance** is a reference point that helps you gauge how well your learning algorithm is performing relative to a reasonable benchmark. It helps to understand if the performance of your model is good enough or if there's room for improvement.
+
+**Why Establish a Baseline?**
+- **Human-Level Performance**: For tasks like speech recognition, where even humans make mistakes (e.g., 10.6% error), comparing your model's performance to human performance can be a useful benchmark. This helps you understand whether your model's performance is near the best possible given the task's inherent challenges.
+- **Competing Algorithms**: If there are existing benchmarks or previous implementations, comparing against these can also set a practical baseline.
+
+**How to Use the Baseline:**
+- **High Bias**: If your model's error is much worse than the baseline, you have a high bias problem. The model is underfitting.
+- **High Variance**: If there is a large gap between training and cross-validation errors, the model is overfitting.
+
+**Example Metrics to Watch:**
+- **Difference Between Training Error and Baseline**: Indicates bias. A large difference suggests high bias.
+- **Difference Between Training Error and Cross-Validation Error**: Indicates variance. A large difference suggests high variance.
 
 ### Practical Example
 
