@@ -94,6 +94,24 @@ When evaluating your model, it's crucial to establish a baseline level of perfor
    - **Indicators**: Training error is low but validation error is high and does not decrease as training data increases.
    - **Actions**: Simplify the model or apply regularization techniques.
 
+## Deciding What to Try Next: Bias and Variance
+
+When training machine learning algorithms, understanding whether your model suffers from high bias or high variance is crucial for making informed decisions on how to improve performance. Here’s a breakdown of common strategies to address these issues:
+
+If your model makes unacceptably large errors, you might consider the following steps:
+
+1. **Get More Training Examples**: Helps with high variance but may not solve high bias issues.
+2. **Try a Smaller Set of Features**: Useful for high variance; reduces the model’s flexibility.
+3. **Get Additional Features**: Helps with high bias; provides more information for the model.
+4. **Add Polynomial Features**: Addresses high bias by allowing the model to fit more complex patterns.
+5. **Decrease Lambda**: Fixes high bias by reducing regularization and increasing model complexity.
+6. **Increase Lambda**: Addresses high variance by reducing model complexity and overfitting.
+
+### Additional Notes
+
+- **Reducing Training Set Size**: This strategy does not help with high bias and is generally not recommended. Reducing the training set may improve training error but usually worsens cross-validation error.
+- **Mastery of Bias and Variance**: Understanding bias and variance is fundamental, but mastering these concepts requires ongoing practice and experience.
+
 ### Practical Example
 
 Below is a Python code snippet to generate learning curves for a simple linear regression model:
