@@ -51,9 +51,9 @@
    - **Indicators**: Both training error and cross-validation error are low and similar.
    - **Actions**: Continue with the current model or fine-tune hyperparameters for potential improvements.
 
-### Establishing a Baseline Level of Performance
+## Establishing a Baseline Level of Performance
 
-When evaluating your model, it's crucial to establish a baseline level of performance to accurately diagnose bias and variance. 
+When evaluating your model, it's crucial to establish a baseline level of performance to accurately diagnose bias and variance.
 
 **What is a Baseline Performance?**
 - **Baseline Performance** is a reference point that helps you gauge how well your learning algorithm is performing relative to a reasonable benchmark. It helps to understand if the performance of your model is good enough or if there's room for improvement.
@@ -70,57 +70,66 @@ When evaluating your model, it's crucial to establish a baseline level of perfor
 - **Difference Between Training Error and Baseline**: Indicates bias. A large difference suggests high bias.
 - **Difference Between Training Error and Cross-Validation Error**: Indicates variance. A large difference suggests high variance.
 
+## Learning Curves
+
+**Learning Curves** are graphical representations that show how the model's performance changes with different sizes of training data. They are useful for diagnosing bias and variance in your model.
+
+### What Are Learning Curves?
+
+- **Training Learning Curve**: Shows how the training error decreases as the size of the training data increases.
+- **Validation Learning Curve**: Shows how the validation error changes with increasing training data.
+
+### Why Use Learning Curves?
+
+1. **Diagnose Model Performance**: Learning curves help visualize how well the model is learning. If the training error is high and the validation error is also high, the model might be underfitting. If the training error is low but the validation error is high, the model might be overfitting.
+2. **Determine if More Data is Needed**: If both errors are still high, you might need more training data. If the validation error starts to level off while the training error continues to decrease, you might be capturing noise with more data.
+
+### How to Interpret Learning Curves
+
+1. **High Bias (Underfitting)**
+   - **Indicators**: Both training and validation errors are high and converge to a high value.
+   - **Actions**: Increase the complexity of the model or add more features.
+
+2. **High Variance (Overfitting)**
+   - **Indicators**: Training error is low but validation error is high and does not decrease as training data increases.
+   - **Actions**: Simplify the model or apply regularization techniques.
+
 ### Practical Example
 
-Below is a Python code snippet to demonstrate diagnosing bias and variance using a simple linear regression model. This example calculates training and cross-validation errors:
+Below is a Python code snippet to generate learning curves for a simple linear regression model:
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error
 
+# Generate synthetic data
 np.random.seed(0)
 X = np.linspace(0, 10, 100).reshape(-1, 1)
 y = 3 * X.flatten() + np.random.normal(0, 1, X.shape[0])
 
-split = int(0.8 * len(X))
-X_train, X_test = X[:split], X[split:]
-y_train, y_test = y[:split], y[split:]
+# Split data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
 
-def model(X, theta):
-    return X @ theta
+train_errors, val_errors = [], []
 
-def cost_function(X, y, theta):
-    m = len(y)
-    predictions = model(X, theta)
-    return np.sum((predictions - y) ** 2) / (2 * m)
-
-X_train_poly = np.hstack([X_train, X_train ** 2])
-X_test_poly = np.hstack([X_test, X_test ** 2])
-theta_best = np.linalg.inv(X_train_poly.T @ X_train_poly) @ X_train_poly.T @ y_train
-
-J_train = cost_function(X_train_poly, y_train, theta_best)
-J_cv = cost_function(X_test_poly, y_test, theta_best)
-
-print(f"Training Error (Mean Squared Error): {J_train:.2f}")
-print(f"Cross-Validation Error (Mean Squared Error): {J_cv:.2f}")
+for m in range(1, len(X_train)):
+    model = LinearRegression()
+    model.fit(X_train[:m], y_train[:m])
+    
+    y_train_predict = model.predict(X_train[:m])
+    y_val_predict = model.predict(X_test)
+    
+    train_errors.append(mean_squared_error(y_train[:m], y_train_predict))
+    val_errors.append(mean_squared_error(y_test, y_val_predict))
 
 plt.figure(figsize=(12, 6))
-
-plt.subplot(1, 2, 1)
-plt.scatter(X_train, y_train, color='blue', label='Training data')
-plt.plot(X_train, model(X_train_poly, theta_best), color='red', label='Fit')
-plt.xlabel('X')
-plt.ylabel('y')
-plt.title('Training Data and Fit')
+plt.plot(np.arange(1, len(X_train)), train_errors, label='Training Error')
+plt.plot(np.arange(1, len(X_train)), val_errors, label='Validation Error')
+plt.xlabel('Training Set Size')
+plt.ylabel('Mean Squared Error')
+plt.title('Learning Curves')
 plt.legend()
-
-plt.subplot(1, 2, 2)
-plt.scatter(X_test, y_test, color='green', label='Test data')
-plt.plot(X_test, model(X_test_poly, theta_best), color='red', label='Fit')
-plt.xlabel('X')
-plt.ylabel('y')
-plt.title('Test Data and Fit')
-plt.legend()
-
-plt.tight_layout()
 plt.show()
