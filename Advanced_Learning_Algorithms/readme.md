@@ -112,42 +112,36 @@ If your model makes unacceptably large errors, you might consider the following 
 - **Reducing Training Set Size**: This strategy does not help with high bias and is generally not recommended. Reducing the training set may improve training error but usually worsens cross-validation error.
 - **Mastery of Bias and Variance**: Understanding bias and variance is fundamental, but mastering these concepts requires ongoing practice and experience.
 
-### Practical Example
 
-Below is a Python code snippet to generate learning curves for a simple linear regression model:
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
-from sklearn.metrics import mean_squared_error
 
-# Generate synthetic data
-np.random.seed(0)
-X = np.linspace(0, 10, 100).reshape(-1, 1)
-y = 3 * X.flatten() + np.random.normal(0, 1, X.shape[0])
+## Neural Networks and the Bias-Variance Tradeoff
 
-# Split data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
+### Neural Networks and Bias
 
-train_errors, val_errors = [], []
+Neural networks, particularly large ones, have the capability to model very complex functions. This allows for a good fit on the training data, which can help in reducing bias.
 
-for m in range(1, len(X_train)):
-    model = LinearRegression()
-    model.fit(X_train[:m], y_train[:m])
-    
-    y_train_predict = model.predict(X_train[:m])
-    y_val_predict = model.predict(X_test)
-    
-    train_errors.append(mean_squared_error(y_train[:m], y_train_predict))
-    val_errors.append(mean_squared_error(y_test, y_val_predict))
+- **High Bias**: If a neural network is underperforming on the training set (high bias), consider increasing the network size by adding more layers or more units per layer to reduce bias.
 
-plt.figure(figsize=(12, 6))
-plt.plot(np.arange(1, len(X_train)), train_errors, label='Training Error')
-plt.plot(np.arange(1, len(X_train)), val_errors, label='Validation Error')
-plt.xlabel('Training Set Size')
-plt.ylabel('Mean Squared Error')
-plt.title('Learning Curves')
-plt.legend()
-plt.show()
+### Neural Networks and Variance
+
+After addressing high bias by increasing the network size, you may encounter high variance (overfitting), where the network performs well on the training data but poorly on validation or test data.
+
+To tackle high variance, you can:
+
+1. **Get More Data**: Increasing the amount of training data helps the model generalize better and reduces overfitting.
+2. **Regularize the Model**: Use techniques such as L2 regularization (weight decay) to add a penalty to the loss function based on the magnitude of the weights, which helps in preventing overfitting.
+
+### Computational Considerations
+
+- **Resource Requirements**: Larger neural networks require more computational resources and time to train. Modern hardware, especially GPUs, can accelerate this process, but very large networks may still be resource-intensive.
+
+### Regularization in Neural Networks
+
+- **Purpose**: Regularization helps to prevent overfitting by penalizing large weights.
+- **Implementation**: In frameworks like TensorFlow, L2 regularization can be added by including a regularization term in the loss function.
+
+### Practical Advice for Neural Network Training
+
+- **Use Larger Networks**: Generally, using a larger network is beneficial, provided you implement appropriate regularization techniques and have sufficient computational resources.
+- **Monitor Bias and Variance**: Track both bias (training error) and variance (cross-validation error) to guide adjustments. Increase the model size if bias is high. If variance is high, consider acquiring more data or applying regularization.
