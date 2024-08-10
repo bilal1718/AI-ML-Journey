@@ -438,3 +438,89 @@ Machine learning algorithms have a profound impact on billions of people. Ensuri
 ### Conclusion
 Ethics, fairness, and bias are critical aspects of developing machine learning systems. By following these guidelines, you can contribute to building systems that are responsible and minimize harm. Always aim to improve and address these issues proactively to ensure your work benefits society positively.
 
+## Error Metrics for Skewed Datasets
+
+When working with imbalanced datasets, where one class is significantly less frequent than the other, traditional accuracy may not be a reliable metric. Instead, precision and recall are more informative metrics for evaluating your model's performance. This document explains these metrics and how they can be used to assess a model in such scenarios.
+
+### Confusion Matrix
+
+The confusion matrix is a 2x2 table that summarizes the performance of a classification algorithm:
+
+|                  | Predicted Positive | Predicted Negative |
+|------------------|---------------------|---------------------|
+| **Actual Positive** | True Positive (TP)  | False Negative (FN) |
+| **Actual Negative** | False Positive (FP) | True Negative (TN)  |
+
+- **True Positives (TP)**: Cases where the model correctly predicted the positive class.
+- **True Negatives (TN)**: Cases where the model correctly predicted the negative class.
+- **False Positives (FP)**: Cases where the model incorrectly predicted the positive class.
+- **False Negatives (FN)**: Cases where the model incorrectly predicted the negative class.
+
+### Precision
+
+Precision measures the accuracy of positive predictions:
+
+\[ \text{Precision} = \frac{TP}{TP + FP} \]
+
+It answers the question: "Of all the cases where the model predicted positive, how many were actually positive?" Precision is crucial when the cost of false positives is high.
+
+### Recall
+
+Recall measures the ability of the model to identify all positive cases:
+
+\[ \text{Recall} = \frac{TP}{TP + FN} \]
+
+It answers the question: "Of all the actual positive cases, how many did the model correctly identify?" Recall is important when missing a positive case has severe consequences.
+
+## Trade-off Between Precision and Recall
+
+Precision and recall often have an inverse relationship. Increasing one may decrease the other. Adjusting the decision threshold of the classifier can help manage this trade-off.
+
+- **High Precision, Low Recall**: The model is conservative, predicting positives only when very confident.
+- **High Recall, Low Precision**: The model is liberal, predicting positives more often, which might include more false positives.
+
+- **High Precision, Low Recall**: If the threshold for predicting a positive class is set high (e.g., 0.7 or 0.9), the model will only predict positive when it is very confident. This results in higher precision but lower recall because the model predicts positives less frequently, missing some true positives.
+
+- **High Recall, Low Precision**: If the threshold is set low (e.g., 0.3), the model will predict positive more frequently, catching more true positives but also increasing false positives. This results in higher recall but lower precision.
+
+### Choosing the Threshold
+
+To balance precision and recall, you can adjust the prediction threshold. A threshold of 0.5 is commonly used, but adjusting it can optimize for either precision or recall depending on your application needs:
+
+- **Higher Threshold**: Increases precision but decreases recall.
+- **Lower Threshold**: Increases recall but decreases precision.
+
+### F1 Score
+
+To balance precision and recall in a single metric, use the **F1 Score**:
+
+\[
+\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}
+\]
+
+The F1 score is the harmonic mean of precision and recall and is particularly useful when you need a single metric that balances both aspects. It emphasizes the lower of the two values, making it a good measure when you need to consider both precision and recall together.
+
+### Example Calculation
+
+For different algorithms, you can compute the F1 Score to determine which one provides the best balance between precision and recall:
+
+- **Algorithm 1**: F1 Score = 0.444
+- **Algorithm 2**: F1 Score = 0.175
+- **Algorithm 3**: F1 Score = 0.0392
+
+In general, the higher the F1 score, the better the model balances precision and recall. 
+
+### ROC Curve and AUC
+
+The ROC curve (Receiver Operating Characteristic curve) plots the true positive rate (recall) against the false positive rate at various thresholds. The AUC (Area Under the Curve) measures the model's ability to discriminate between positive and negative classes.
+
+### Summary
+
+In imbalanced datasets, relying solely on accuracy can be misleading. Precision and recall provide a clearer picture of model performance, particularly for rare classes. Using these metrics helps ensure that your model is both effective in identifying positives and avoids excessive false positives.
+
+
+
+
+
+
+
