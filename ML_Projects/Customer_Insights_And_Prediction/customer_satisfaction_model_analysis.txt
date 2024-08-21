@@ -1,0 +1,10 @@
+
+Mean Squared Error: 0.6770506745249558
+Mean Absolute Error: 0.580790730496314
+RandomForestRegressor Cross-Validation MSE Scores: [1.00215274 1.38379273 0.41134558 0.41225699 1.44368382]
+Mean MSE: 0.9306463709084289
+Standard Deviation of MSE: 0.4499028945322061
+
+
+Feature Names: reviews.doRecommend  reviews.numHelpful  Log_AvgPrice
+Feature Importances: [0.07469524 0.27572941 0.64957535]
