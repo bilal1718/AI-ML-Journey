@@ -14,12 +14,17 @@ for col in cols_to_encode:
     freq_encoding = X[col].value_counts() / len(X)
     X[col] = X[col].map(freq_encoding)
 
-print("Input Features: ")
-print(X.head())
-print("Target Value: ")
-print(y.head())
+# print("Input Features: ")
+# print(X.head())
+# print("Target Value: ")
+# print(y.head())
 
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 
+lr=LinearRegression()
+lr.fit(X,y)
+print(r2_score(lr.predict(X), y))
 
 
 
