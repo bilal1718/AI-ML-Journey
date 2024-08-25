@@ -7,9 +7,6 @@ import seaborn as sns
 os.chdir("c:/Users/CT/Desktop/AI_Journey/ML_Projects/Customer_Insights_And_Prediction/")
 df = pd.read_csv("sales_forecasting_dataset.csv")
 df.drop(columns=["Row ID","Order ID","Product Name","Customer ID","Customer Name","Country","Product ID","Postal Code"],inplace=True)
-
-
-
 cols_to_encode = df
 for col in cols_to_encode:
     freq_encoding = df[col].value_counts() / len(df)
@@ -17,31 +14,6 @@ for col in cols_to_encode:
 
 X=df.drop("Sales",axis=1)
 y=df["Sales"]
-
-
-# plt.figure(figsize=(20, 15))
-
-# for i, col in enumerate(X.columns):
-#     sns.scatterplot(x=X[col], y=y)
-#     plt.xlabel(col)
-#     plt.ylabel("Sales")
-#     plt.title(f"Sales vs {col}")
-
-# plt.tight_layout()
-# plt.show()
-# print("Input Features: ")
-# print(X.head())
-# print("Target Value: ")
-# print(y.head())
-
-# from sklearn.linear_model import LinearRegression
-# from sklearn.metrics import r2_score
-
-# lr=LinearRegression()
-# lr.fit(X,y)
-# print(r2_score(lr.predict(X), y))
-
-
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestRegressor
 
@@ -65,8 +37,3 @@ for name, model in models.items():
     }
 
 print(pd.DataFrame(results).T)
-
-
-
-
-# The data is from country => United States
