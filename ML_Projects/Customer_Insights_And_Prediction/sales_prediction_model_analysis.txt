@@ -1,0 +1,9 @@
+  R2       MAE      RMSE
+Decision Tree     -0.013255  0.000302  0.000638
+Random Forest      0.178703  0.000287  0.000574
+Gradient Boosting  0.000438  0.000310  0.000634
+
+
+
+Based on data I select Random Forest for final model .
+
