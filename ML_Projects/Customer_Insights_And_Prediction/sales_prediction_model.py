@@ -15,8 +15,8 @@ y=df["Sales"]
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.ensemble import RandomForestRegressor
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-    "Random Forest": RandomForestRegressor(n_estimators=100, max_depth=10, min_samples_split=10, min_samples_leaf=4, max_features='sqrt'),
-
+model = RandomForestRegressor(n_estimators=100, max_depth=10, min_samples_split=10, min_samples_leaf=4, max_features='sqrt')
+model.fit(X_train, y_train)
 def get_user_input():
     user_input = {}
     user_input['Order Date'] = input("Enter Order Date (YYYY-MM-DD): ")
@@ -43,6 +43,8 @@ def predict_sales(user_df):
     
     return prediction[0]
 
-print(pd.DataFrame(results).T)
-print("Features used in the model:")
-print(X.columns)
+
+user_df = get_user_input()
+predicted_sales = predict_sales(user_df)
+print(f"Predicted Sales: {predicted_sales}")
+
