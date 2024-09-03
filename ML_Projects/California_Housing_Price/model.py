@@ -47,7 +47,11 @@ for set_ in (strat_train_set, strat_test_set):
 # plt.ylabel("Number of districts")
 # plt.show()
 data=strat_train_set.copy()
-data.plot(kind="scatter" , x="longitude", y="latitude", grid=True,
-           s=data["population"] / 100 , label="population", c="median_house_value",
-             cmap="jet" , colorbar=True , legend=True, sharex=False, figsize=(10,7))
-plt.show()
+# data.plot(kind="scatter" , x="longitude", y="latitude", grid=True,
+#            s=data["population"] / 100 , label="population", c="median_house_value",
+#              cmap="jet" , colorbar=True , legend=True, sharex=False, figsize=(10,7))
+# plt.show()
+
+
+corr_matrix=data.corr()
+print(corr_matrix["median_house_value"].sort_values(ascending=False))
