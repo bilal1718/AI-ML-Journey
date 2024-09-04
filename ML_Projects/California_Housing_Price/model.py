@@ -63,3 +63,6 @@ data["people_per_house"]=data["population"] / data["households"]
 
 corr_matrix=data.corr()
 print(corr_matrix["median_house_value"].sort_values(ascending=False))
+
+data=strat_train_set.drop("median_house_value", axis=1)
+data_labels=strat_train_set["median_house_value"].copy()
