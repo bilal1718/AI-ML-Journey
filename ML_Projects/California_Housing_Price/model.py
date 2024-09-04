@@ -54,4 +54,12 @@ data=strat_train_set.copy()
 
 
 corr_matrix=data.corr()
+# print(corr_matrix["median_house_value"].sort_values(ascending=False))
+
+
+data["rooms_per_house"]=data["total_rooms"] / data["households"]
+data["bedrooms_ratio"]=data["total_bedrooms"] / data["total_rooms"]
+data["people_per_house"]=data["population"] / data["households"]
+
+corr_matrix=data.corr()
 print(corr_matrix["median_house_value"].sort_values(ascending=False))
