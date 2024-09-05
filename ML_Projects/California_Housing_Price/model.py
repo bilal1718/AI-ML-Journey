@@ -66,3 +66,13 @@ print(corr_matrix["median_house_value"].sort_values(ascending=False))
 
 data=strat_train_set.drop("median_house_value", axis=1)
 data_labels=strat_train_set["median_house_value"].copy()
+
+
+from sklearn.impute import SimpleImputer
+
+imputer=SimpleImputer(strategy="median")
+data_num=data.select_dtypes(include=[np.number])
+imputer.fit(data_num)
+
+X=imputer.transform(data_num)
+data_tr=pd.DataFrame(X, columns=data_num.columns, index=data_num.index)
