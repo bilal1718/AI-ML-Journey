@@ -70,6 +70,7 @@ data_labels=strat_train_set["median_house_value"].copy()
 
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OrdinalEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 imputer=SimpleImputer(strategy="median")
 data_num=data.select_dtypes(include=[np.number])
@@ -80,3 +81,7 @@ data_tr=pd.DataFrame(X, columns=data_num.columns, index=data_num.index)
 data_cat=data[["ocean_proximity"]]
 ordinal_encoder=OrdinalEncoder()
 data_cat_encoded=ordinal_encoder.fit_transform(data_cat)
+print(data_cat_encoded[:8])
+
+cat_encoder=OneHotEncoder()
+data_cat_1hot=cat_encoder.fit_transform(data_cat)
