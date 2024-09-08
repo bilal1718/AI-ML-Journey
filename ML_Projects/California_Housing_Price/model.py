@@ -85,3 +85,11 @@ print(data_cat_encoded[:8])
 
 cat_encoder=OneHotEncoder()
 data_cat_1hot=cat_encoder.fit_transform(data_cat)
+
+from sklearn.preprocessing import StandardScaler
+
+std_scalar=StandardScaler()
+data_num_std_scaled=std_scalar.fit_transform(data_num)
+
+target_scalar=StandardScaler()
+scaled_labels=target_scalar.fit_transform(data_labels.to_frame())
