@@ -87,9 +87,17 @@ cat_encoder=OneHotEncoder()
 data_cat_1hot=cat_encoder.fit_transform(data_cat)
 
 from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LinearRegression()
 
 std_scalar=StandardScaler()
 data_num_std_scaled=std_scalar.fit_transform(data_num)
 
 target_scalar=StandardScaler()
 scaled_labels=target_scalar.fit_transform(data_labels.to_frame())
+
+model=LinearRegression()
+model.fit(data[["median_income"]], scaled_labels)
+some_new_data=data[["median_income"]].iloc[:5]
+
+scaled_predictions=model.predict(some_new_data)
+predictions=target_scalar.inverse_transform(scaled_predictions)
