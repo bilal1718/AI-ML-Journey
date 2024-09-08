@@ -53,7 +53,7 @@ data=strat_train_set.copy()
 # plt.show()
 
 
-corr_matrix=data.corr()
+# corr_matrix=data.corr()
 # print(corr_matrix["median_house_value"].sort_values(ascending=False))
 
 
@@ -61,8 +61,8 @@ data["rooms_per_house"]=data["total_rooms"] / data["households"]
 data["bedrooms_ratio"]=data["total_bedrooms"] / data["total_rooms"]
 data["people_per_house"]=data["population"] / data["households"]
 
-corr_matrix=data.corr()
-print(corr_matrix["median_house_value"].sort_values(ascending=False))
+# corr_matrix=data.corr()
+# print(corr_matrix["median_house_value"].sort_values(ascending=False))
 
 data=strat_train_set.drop("median_house_value", axis=1)
 data_labels=strat_train_set["median_house_value"].copy()
@@ -87,7 +87,8 @@ cat_encoder=OneHotEncoder()
 data_cat_1hot=cat_encoder.fit_transform(data_cat)
 
 from sklearn.preprocessing import StandardScaler
-from sklearn.linear_model import LinearRegression()
+from sklearn.linear_model import LinearRegression
+from sklearn.compose import TransformedTargetRegressor
 
 std_scalar=StandardScaler()
 data_num_std_scaled=std_scalar.fit_transform(data_num)
@@ -101,3 +102,8 @@ some_new_data=data[["median_income"]].iloc[:5]
 
 scaled_predictions=model.predict(some_new_data)
 predictions=target_scalar.inverse_transform(scaled_predictions)
+
+model=TransformedTargetRegressor(LinearRegression(), transformer=StandardScaler())
+model.fit(data[["median_income"]], data_labels)
+predictions=model.predict(some_new_data)
+print(predictions)
