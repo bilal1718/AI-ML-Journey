@@ -94,6 +94,7 @@ std_scalar=StandardScaler()
 data_num_std_scaled=std_scalar.fit_transform(data_num)
 
 from sklearn.metrics.pairwise import rbf_kernel
+age_simil_35=rbf_kernel(data[["housing_median_age"]], [[35]], gamma=0.1)
 
 target_scalar=StandardScaler()
 scaled_labels=target_scalar.fit_transform(data_labels.to_frame())
