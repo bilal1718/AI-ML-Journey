@@ -93,6 +93,8 @@ from sklearn.compose import TransformedTargetRegressor
 std_scalar=StandardScaler()
 data_num_std_scaled=std_scalar.fit_transform(data_num)
 
+from sklearn.metrics.pairwise import rbf_kernel
+
 target_scalar=StandardScaler()
 scaled_labels=target_scalar.fit_transform(data_labels.to_frame())
 
