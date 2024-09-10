@@ -115,3 +115,7 @@ from sklearn.preprocessing import FunctionTransformer
 
 log_transformer=FunctionTransformer(np.log, inverse_func=np.exp)
 log_pop=log_transformer.transform(data[["population"]])
+
+
+rbf_transformer=FunctionTransformer(rbf_kernel, kw_args=dict(Y=[[35.]], gamma=0.1))
+age_simil_35=rbf_transformer.transform(data[["housing_median_age"]])
