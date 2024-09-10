@@ -119,3 +119,25 @@ log_pop=log_transformer.transform(data[["population"]])
 
 rbf_transformer=FunctionTransformer(rbf_kernel, kw_args=dict(Y=[[35.]], gamma=0.1))
 age_simil_35=rbf_transformer.transform(data[["housing_median_age"]])
+
+from sklearn.cluster import KMeans
+from sklearn.base import BaseEstimator, TransformerMixin
+
+class ClusterSimilarity(BaseEstimator, TransformerMixin):
+    def __init__(self, n_clusters=10, gamma=1.0, random_state=None):
+        self.n_clusters=n_clusters
+        self.gamma=gamma
+        self.random_state=random_state
+    def fit(self, X, y=None, sample_weight=None):
+        self.kmeans=KMeans(self.n_clusters, random_state=self.random_state)
+        self.kmeans.fit(X, sample_weight=sample_weight)
+        return self
+    def transform(self, X):
+        return rbf_kernel(X, self.kmeans.cluster_centers_,gamma=self.gamma)
+    def get_feature_names_out(self, names=None):
+        return [f"Cluster {i} similarity" for i in range(self.n_clusters)]
+    
+cluster_simil=ClusterSimilarity(n_clusters=10, gamma=1., random_state=42)
+similarities=cluster_simil.fit_transform(data[["latitude", "longitude"]], sample_weight=data_labels)
+
+print(similarities[:3].round(2))
