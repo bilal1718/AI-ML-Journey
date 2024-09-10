@@ -110,3 +110,8 @@ model=TransformedTargetRegressor(LinearRegression(), transformer=StandardScaler(
 model.fit(data[["median_income"]], data_labels)
 predictions=model.predict(some_new_data)
 print(predictions)
+
+from sklearn.preprocessing import FunctionTransformer
+
+log_transformer=FunctionTransformer(np.log, inverse_func=np.exp)
+log_pop=log_transformer.transform(data[["population"]])
