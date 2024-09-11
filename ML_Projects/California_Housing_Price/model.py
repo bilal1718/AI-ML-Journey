@@ -150,3 +150,5 @@ num_pipeline=Pipeline([
     ("standardize",StandardScaler()),
 ])
 num_pipeline=make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
+data_num_prepared=num_pipeline.fit_transform(data_num)
+print(data_num_prepared[:2].round(2))
