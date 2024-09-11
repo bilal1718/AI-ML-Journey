@@ -143,8 +143,10 @@ similarities=cluster_simil.fit_transform(data[["latitude", "longitude"]], sample
 print(similarities[:3].round(2))
 
 from sklearn.pipeline import Pipeline
+from sklearn.pipeline import make_pipeline
 
 num_pipeline=Pipeline([
     ("impute",SimpleImputer(strategy="median")),
     ("standardize",StandardScaler()),
 ])
+num_pipeline=make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
