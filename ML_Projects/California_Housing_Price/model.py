@@ -152,3 +152,18 @@ num_pipeline=Pipeline([
 num_pipeline=make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
 data_num_prepared=num_pipeline.fit_transform(data_num)
 print(data_num_prepared[:2].round(2))
+df_data_num_prepared=pd.DataFrame(data_num_prepared, columns=num_pipeline.get_feature_names_out(), index=data_num.index)
+
+from sklearn.compose import ColumnTransformer
+num_attribs=["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income"]
+cat_attribs=["ocean_proximity"]
+
+cat_pipeline=make_pipeline(
+    SimpleImputer(strategy="most_frequent"),
+    OneHotEncoder(handle_unknown="ignore")
+)
+
+preprocessing=ColumnTransformer([
+    ("num", num_pipeline, num_attribs),
+    ("cat", cat_pipeline, cat_attribs),
+])
