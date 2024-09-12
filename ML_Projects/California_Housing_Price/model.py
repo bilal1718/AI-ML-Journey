@@ -204,3 +204,6 @@ preprocessing=ColumnTransformer([
 ],
 remainder=default_num_pipeline
 )
+
+data_prepared=preprocessing.fit_transform(data)
+print(data_prepared.shape)
