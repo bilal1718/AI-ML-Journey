@@ -155,6 +155,7 @@ print(data_num_prepared[:2].round(2))
 df_data_num_prepared=pd.DataFrame(data_num_prepared, columns=num_pipeline.get_feature_names_out(), index=data_num.index)
 
 from sklearn.compose import ColumnTransformer
+from sklearn.compose import make_column_selector, make_column_transformer
 num_attribs=["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income"]
 cat_attribs=["ocean_proximity"]
 
@@ -167,3 +168,11 @@ preprocessing=ColumnTransformer([
     ("num", num_pipeline, num_attribs),
     ("cat", cat_pipeline, cat_attribs),
 ])
+
+preprocessing=make_column_transformer(
+    (num_pipeline, make_column_selector(dtype_include=np.number)),
+    (cat_pipeline, make_column_selector(dtype_include=object)),
+)
+
+data_prepared=preprocessing.fit_transform(data)
+
