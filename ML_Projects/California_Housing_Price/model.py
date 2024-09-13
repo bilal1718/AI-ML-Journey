@@ -218,3 +218,8 @@ lin_reg.fit(data, data_labels)
 data_predictions=lin_reg.predict(data)
 print(data_predictions[:5].round(-2))
 print(data_labels.iloc[:5].values)
+
+from sklearn.metrics import mean_squared_error
+
+lin_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
+print(lin_rmse)
