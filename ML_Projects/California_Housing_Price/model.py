@@ -215,4 +215,6 @@ from sklearn.linear_model import LinearRegression
 lin_reg=make_pipeline(preprocessing, LinearRegression())
 lin_reg.fit(data, data_labels)
 
-
+data_predictions=lin_reg.predict(data)
+print(data_predictions[:5].round(-2))
+print(data_labels.iloc[:5].values)
