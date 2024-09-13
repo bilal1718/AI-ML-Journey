@@ -207,3 +207,5 @@ remainder=default_num_pipeline
 
 data_prepared=preprocessing.fit_transform(data)
 print(data_prepared.shape)
+
+print(preprocessing.get_feature_names_out())
