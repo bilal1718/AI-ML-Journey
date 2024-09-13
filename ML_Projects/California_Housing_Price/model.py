@@ -209,3 +209,10 @@ data_prepared=preprocessing.fit_transform(data)
 print(data_prepared.shape)
 
 print(preprocessing.get_feature_names_out())
+
+from sklearn.linear_model import LinearRegression
+
+lin_reg=make_pipeline(preprocessing, LinearRegression())
+lin_reg.fit(data, data_labels)
+
+
