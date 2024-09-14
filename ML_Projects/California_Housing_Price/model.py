@@ -232,3 +232,8 @@ tree_reg.fit(data, data_labels)
 data_predictions=tree_reg.predict(data)
 tree_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
 print(tree_rmse)
+
+from sklearn.model_selection import cross_val_score
+
+tree_rmses=-cross_val_score(tree_reg, data, data_labels, scoring="neg_root_mean_squared_error", cv=10)
+print(pd.Series(tree_rmses).describe())
