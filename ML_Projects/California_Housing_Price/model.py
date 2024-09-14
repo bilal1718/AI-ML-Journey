@@ -223,3 +223,12 @@ from sklearn.metrics import mean_squared_error
 
 lin_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
 print(lin_rmse)
+
+from sklearn.tree import DecisionTreeRegressor
+
+tree_reg=make_pipeline(preprocessing, DecisionTreeRegressor(random_state=42))
+tree_reg.fit(data, data_labels)
+
+data_predictions=tree_reg.predict(data)
+tree_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
+print(tree_rmse)
