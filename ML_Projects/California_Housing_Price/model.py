@@ -262,4 +262,5 @@ grid_search=GridSearchCV(full_pipeline, param_grid, cv=3, scoring="neg_root_mean
 grid_search.fit(data, data_labels)
 print(grid_search.best_params_)
 cv_res=pd.DataFrame(grid_search.cv_results_)
-cv_res.sort_values(by="mean_test_score")
+cv_res.sort_values(by="mean_test_score", ascending=False, inplace=True)
+print(cv_res.head())
