@@ -245,3 +245,10 @@ forest_reg=make_pipeline(preprocessing, RandomForestRegressor(random_state=42))
 forest_rmses=-cross_val_score(forest_reg, data, data_labels, scoring="neg_root_mean_squared_error", cv=10)
 
 print(pd.Series(forest_rmses).describe())
+
+from sklearn.model_selection import GridSearchCV
+
+full_pipeline=Pipeline([
+    ("preprocessing", preprocessing),
+    ("random_forest", RandomForestRegressor(random_state=42)),
+])
