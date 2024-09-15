@@ -258,3 +258,8 @@ param_grid=[
     {'preprocessing__geo__n_clusters':[10,15],
      'random_forest__max_features':[6,8,10]},
 ]
+grid_search=GridSearchCV(full_pipeline, param_grid, cv=3, scoring="neg_root_mean_squared_error")
+grid_search.fit(data, data_labels)
+print(grid_search.best_params_)
+cv_res=pd.DataFrame(grid_search.cv_results_)
+cv_res.sort_values(by="mean_test_score")
