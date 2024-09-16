@@ -264,3 +264,12 @@ print(grid_search.best_params_)
 cv_res=pd.DataFrame(grid_search.cv_results_)
 cv_res.sort_values(by="mean_test_score", ascending=False, inplace=True)
 print(cv_res.head())
+
+
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import randint
+param_distribs=[
+    {'preprocessing__geo__n_clusters':randint(low=3, high=50),
+     'random_forest__max_features':randint(low=2, high=20)},
+]
+
