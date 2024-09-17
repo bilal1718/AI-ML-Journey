@@ -277,4 +277,7 @@ rnd_search.fit(data, data_labels)
 
 final_model=rnd_search.best_estimator_
 feature_importances=final_model["random_forest"].feature_importances_
-feature_importances.round(2)
+print(feature_importances.round(2))
+
+sort=sorted(zip(feature_importances, final_model["preprocessing"].get_feature_names_out()), reverse=True)
+print(sort)
