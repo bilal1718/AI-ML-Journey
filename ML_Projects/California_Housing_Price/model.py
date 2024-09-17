@@ -274,3 +274,7 @@ param_distribs=[
 ]
 rnd_search=RandomizedSearchCV(full_pipeline, param_distributions=param_distribs, n_iter=10, cv=3, scoring="neg_root_mean_squared_error", random_state=42)
 rnd_search.fit(data, data_labels)
+
+final_model=rnd_search.best_estimator_
+feature_importances=final_model["random_forest"].feature_importances_
+feature_importances.round(2)
