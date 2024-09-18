@@ -281,3 +281,6 @@ print(feature_importances.round(2))
 
 sort=sorted(zip(feature_importances, final_model["preprocessing"].get_feature_names_out()), reverse=True)
 print(sort)
+
+X_test=strat_test_set.drop("median_house_value", axis=1)
+y_test=strat_test_set["median_house_value"].copy()
