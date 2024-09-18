@@ -284,3 +284,5 @@ print(sort)
 
 X_test=strat_test_set.drop("median_house_value", axis=1)
 y_test=strat_test_set["median_house_value"].copy()
+
+final_predictions=final_model.predict(X_test)
