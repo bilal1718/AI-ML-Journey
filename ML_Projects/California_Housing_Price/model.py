@@ -286,3 +286,6 @@ X_test=strat_test_set.drop("median_house_value", axis=1)
 y_test=strat_test_set["median_house_value"].copy()
 
 final_predictions=final_model.predict(X_test)
+
+final_rmse=mean_squared_error(y_test, final_predictions, squared=False)
+print(final_rmse)
