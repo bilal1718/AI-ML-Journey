@@ -289,3 +289,5 @@ final_predictions=final_model.predict(X_test)
 
 final_rmse=mean_squared_error(y_test, final_predictions, squared=False)
 print(final_rmse)
+
+print("The final RMSE is: ", final_rmse)
