@@ -299,3 +299,7 @@ squared_errors=(final_predictions - y_test) ** 2
 np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
                          loc=squared_errors.mean(),
                          scale=stats.sem(squared_errors)))
+
+import joblib
+
+joblib.dump(final_model, "my_california_house_model.pkl")
