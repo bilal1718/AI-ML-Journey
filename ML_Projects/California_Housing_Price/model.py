@@ -81,7 +81,6 @@ data_tr=pd.DataFrame(X, columns=data_num.columns, index=data_num.index)
 data_cat=data[["ocean_proximity"]]
 ordinal_encoder=OrdinalEncoder()
 data_cat_encoded=ordinal_encoder.fit_transform(data_cat)
-print(data_cat_encoded[:8])
 
 cat_encoder=OneHotEncoder()
 data_cat_1hot=cat_encoder.fit_transform(data_cat)
@@ -109,7 +108,6 @@ predictions=target_scalar.inverse_transform(scaled_predictions)
 model=TransformedTargetRegressor(LinearRegression(), transformer=StandardScaler())
 model.fit(data[["median_income"]], data_labels)
 predictions=model.predict(some_new_data)
-print(predictions)
 
 from sklearn.preprocessing import FunctionTransformer
 
@@ -140,8 +138,6 @@ class ClusterSimilarity(BaseEstimator, TransformerMixin):
 cluster_simil=ClusterSimilarity(n_clusters=10, gamma=1., random_state=42)
 similarities=cluster_simil.fit_transform(data[["latitude", "longitude"]], sample_weight=data_labels)
 
-print(similarities[:3].round(2))
-
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import make_pipeline
 
@@ -151,7 +147,6 @@ num_pipeline=Pipeline([
 ])
 num_pipeline=make_pipeline(SimpleImputer(strategy="median"), StandardScaler())
 data_num_prepared=num_pipeline.fit_transform(data_num)
-print(data_num_prepared[:2].round(2))
 df_data_num_prepared=pd.DataFrame(data_num_prepared, columns=num_pipeline.get_feature_names_out(), index=data_num.index)
 
 from sklearn.compose import ColumnTransformer
@@ -206,9 +201,6 @@ remainder=default_num_pipeline
 )
 
 data_prepared=preprocessing.fit_transform(data)
-print(data_prepared.shape)
-
-print(preprocessing.get_feature_names_out())
 
 from sklearn.linear_model import LinearRegression
 
@@ -216,13 +208,10 @@ lin_reg=make_pipeline(preprocessing, LinearRegression())
 lin_reg.fit(data, data_labels)
 
 data_predictions=lin_reg.predict(data)
-print(data_predictions[:5].round(-2))
-print(data_labels.iloc[:5].values)
 
 from sklearn.metrics import mean_squared_error
 
 lin_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
-print(lin_rmse)
 
 from sklearn.tree import DecisionTreeRegressor
 
@@ -231,12 +220,10 @@ tree_reg.fit(data, data_labels)
 
 data_predictions=tree_reg.predict(data)
 tree_rmse=mean_squared_error(data_labels, data_predictions, squared=False)
-print(tree_rmse)
 
 from sklearn.model_selection import cross_val_score
 
 tree_rmses=-cross_val_score(tree_reg, data, data_labels, scoring="neg_root_mean_squared_error", cv=10)
-print(pd.Series(tree_rmses).describe())
 
 from sklearn.ensemble import RandomForestRegressor
 
@@ -244,7 +231,6 @@ forest_reg=make_pipeline(preprocessing, RandomForestRegressor(random_state=42))
 
 forest_rmses=-cross_val_score(forest_reg, data, data_labels, scoring="neg_root_mean_squared_error", cv=10)
 
-print(pd.Series(forest_rmses).describe())
 
 from sklearn.model_selection import GridSearchCV
 
@@ -258,12 +244,12 @@ param_grid=[
     {'preprocessing__geo__n_clusters':[10,15],
      'random_forest__max_features':[6,8,10]},
 ]
-grid_search=GridSearchCV(full_pipeline, param_grid, cv=3, scoring="neg_root_mean_squared_error")
-grid_search.fit(data, data_labels)
-print(grid_search.best_params_)
-cv_res=pd.DataFrame(grid_search.cv_results_)
-cv_res.sort_values(by="mean_test_score", ascending=False, inplace=True)
-print(cv_res.head())
+# grid_search=GridSearchCV(full_pipeline, param_grid, cv=3, scoring="neg_root_mean_squared_error")
+# grid_search.fit(data, data_labels)
+# print(grid_search.best_params_)
+# cv_res=pd.DataFrame(grid_search.cv_results_)
+# cv_res.sort_values(by="mean_test_score", ascending=False, inplace=True)
+# print(cv_res.head())
 
 
 from sklearn.model_selection import RandomizedSearchCV
@@ -277,10 +263,8 @@ rnd_search.fit(data, data_labels)
 
 final_model=rnd_search.best_estimator_
 feature_importances=final_model["random_forest"].feature_importances_
-print(feature_importances.round(2))
 
 sort=sorted(zip(feature_importances, final_model["preprocessing"].get_feature_names_out()), reverse=True)
-print(sort)
 
 X_test=strat_test_set.drop("median_house_value", axis=1)
 y_test=strat_test_set["median_house_value"].copy()
@@ -288,7 +272,6 @@ y_test=strat_test_set["median_house_value"].copy()
 final_predictions=final_model.predict(X_test)
 
 final_rmse=mean_squared_error(y_test, final_predictions, squared=False)
-print(final_rmse)
 
 print("The final RMSE is: ", final_rmse)
 
