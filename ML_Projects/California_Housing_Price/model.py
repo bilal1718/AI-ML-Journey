@@ -296,3 +296,6 @@ print("The final RMSE is: ", final_rmse)
 from scipy import stats
 confidence=0.95
 squared_errors=(final_predictions - y_test) ** 2
+np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
+                         loc=squared_errors.mean(),
+                         scale=stats.sem(squared_errors)))
