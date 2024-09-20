@@ -291,3 +291,8 @@ final_rmse=mean_squared_error(y_test, final_predictions, squared=False)
 print(final_rmse)
 
 print("The final RMSE is: ", final_rmse)
+
+
+from scipy import stats
+confidence=0.95
+squared_errors=(final_predictions - y_test) ** 2
