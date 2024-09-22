@@ -291,3 +291,7 @@ joblib.dump(final_model, "my_california_house_model.pkl")
 def column_ratio(X):[...]
 def ratio_name(function_transformer, features_names_in):[...]
 class ClusterSimilarity(BaseEstimator, TransformerMixin):[...]
+
+final_model_reloaded=joblib.load("my_california_housing_model.py")
+new_data=[...]
+predictions=final_model_reloaded.predict(new_data)
