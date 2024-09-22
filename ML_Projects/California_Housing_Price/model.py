@@ -286,3 +286,8 @@ np.sqrt(stats.t.interval(confidence, len(squared_errors) - 1,
 import joblib
 
 joblib.dump(final_model, "my_california_house_model.pkl")
+
+[...]
+def column_ratio(X):[...]
+def ratio_name(function_transformer, features_names_in):[...]
+class ClusterSimilarity(BaseEstimator, TransformerMixin):[...]
