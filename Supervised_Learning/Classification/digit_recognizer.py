@@ -19,3 +19,7 @@ X_train, X_test, y_train, y_test=X[:60000], X[60000:], y[:60000], y[60000:]
 y_train_5=(y_train=='5')
 y_test_5=(y_test=='5')
 
+from sklearn.linear_model import SGDClassifier
+
+sdg_clf=SGDClassifier(random_state=42)
+sdg_clf.fit(X_train, y_train_5)
