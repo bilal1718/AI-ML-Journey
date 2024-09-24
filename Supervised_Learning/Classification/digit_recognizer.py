@@ -23,3 +23,5 @@ from sklearn.linear_model import SGDClassifier
 
 sdg_clf=SGDClassifier(random_state=42)
 sdg_clf.fit(X_train, y_train_5)
+
+sdg_clf.predict([some_digit])
