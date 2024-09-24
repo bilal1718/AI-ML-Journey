@@ -13,3 +13,4 @@ some_digit=X[0]
 plot_digit(some_digit)
 plt.show()
 
+X_train, X_test, y_train, y_test=X[:60000], X[60000:], y[:60000], y[60000:]
