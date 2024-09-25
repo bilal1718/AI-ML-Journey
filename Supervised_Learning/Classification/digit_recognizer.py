@@ -11,7 +11,7 @@ def plot_digit(image_data):
 
 some_digit=X[0]
 plot_digit(some_digit)
-plt.show()
+# plt.show()
 
 X_train, X_test, y_train, y_test=X[:60000], X[60000:], y[:60000], y[60000:]
 
@@ -25,3 +25,6 @@ sdg_clf=SGDClassifier(random_state=42)
 sdg_clf.fit(X_train, y_train_5)
 
 sdg_clf.predict([some_digit])
+
+from sklearn.model_selection import cross_val_score
+cross_val_score(sdg_clf, X_train, y_train_5, cv=3, scoring="accuracy")
