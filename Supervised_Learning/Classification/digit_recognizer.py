@@ -1,5 +1,10 @@
 from sklearn.datasets import fetch_openml
 import matplotlib.pyplot as plt
+
+
+#################################
+
+# MNIST Dataset
 mnist=fetch_openml('mnist_784', as_frame=False)
 X,y=mnist.data, mnist.target
 print(X.shape)
@@ -11,11 +16,12 @@ def plot_digit(image_data):
 
 some_digit=X[0]
 plot_digit(some_digit)
-# plt.show()
 
 X_train, X_test, y_train, y_test=X[:60000], X[60000:], y[:60000], y[60000:]
 
+#####################################
 
+# Training a Binary Classifier
 y_train_5=(y_train=='5')
 y_test_5=(y_test=='5')
 
@@ -26,6 +32,12 @@ sdg_clf.fit(X_train, y_train_5)
 
 sdg_clf.predict([some_digit])
 
+
+
+########################################
+
+# Measuring Accuracy using cross validation
+
 from sklearn.model_selection import cross_val_score
 cross_val_score(sdg_clf, X_train, y_train_5, cv=3, scoring="accuracy")
 
@@ -33,4 +45,7 @@ from sklearn.dummy import DummyClassifier
 
 dummy_clf=DummyClassifier()
 dummy_clf.fit(X_train, y_train_5)
-print(any(dummy_clf.predict(X_train)))
+
+cross_val_score(dummy_clf, X_train, y_train_5, cv=3, scoring="accuracy")
+
+############################################
