@@ -49,3 +49,10 @@ dummy_clf.fit(X_train, y_train_5)
 cross_val_score(dummy_clf, X_train, y_train_5, cv=3, scoring="accuracy")
 
 ############################################
+
+# Confusion Matrices
+
+from sklearn.model_selection import cross_val_predict
+
+y_train_pred=cross_val_predict(sdg_clf, X_train, y_train_5, cv=3)
+
