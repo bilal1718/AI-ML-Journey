@@ -62,3 +62,8 @@ cm=confusion_matrix(y_train_5, y_train_pred)
 
 y_train_perfect_predictions=y_train_5
 confusion_matrix(y_train_5, y_train_perfect_predictions)
+
+
+####################################################
+
+# Precision and Recall
