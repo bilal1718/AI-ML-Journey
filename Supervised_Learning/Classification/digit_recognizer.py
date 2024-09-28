@@ -73,3 +73,7 @@ from sklearn.metrics import precision_score, recall_score
 precision_score(y_train_5, y_train_pred)
 
 recall_score(y_train_5, y_train_pred)
+
+from sklearn.metrics import f1_score
+f1=f1_score(y_train_5, y_train_pred)
+print(f1)
