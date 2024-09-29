@@ -84,3 +84,4 @@ print(f1)
 
 y_scores=sdg_clf.decision_function([some_digit])
 print(y_scores)
+y_scores=cross_val_predict(sdg_clf, X_train, y_train_5, cv=3, method="decision_function")
