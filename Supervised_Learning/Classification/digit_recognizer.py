@@ -77,3 +77,10 @@ recall_score(y_train_5, y_train_pred)
 from sklearn.metrics import f1_score
 f1=f1_score(y_train_5, y_train_pred)
 print(f1)
+
+#######################################################
+
+# Precision Recall Tradeoff
+
+y_scores=sdg_clf.decision_function([some_digit])
+print(y_scores)
