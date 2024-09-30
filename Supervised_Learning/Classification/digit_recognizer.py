@@ -89,3 +89,6 @@ y_scores=cross_val_predict(sdg_clf, X_train, y_train_5, cv=3, method="decision_f
 y_train_pred_90 = (y_scores > 70000)
 precision_score(y_train_5, y_train_pred_90)
 recall_score(y_train_5, y_train_pred_90)
+from sklearn.metrics import precision_recall_curve
+precisions, recall, thresholds=precision_recall_curve(y_train_5, y_scores)
+idx_for_90_precision=(precisions)
