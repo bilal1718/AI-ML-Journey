@@ -91,4 +91,11 @@ precision_score(y_train_5, y_train_pred_90)
 recall_score(y_train_5, y_train_pred_90)
 from sklearn.metrics import precision_recall_curve
 precisions, recall, thresholds=precision_recall_curve(y_train_5, y_scores)
-idx_for_90_precision=(precisions)
+
+idx_for_90_precision=(precisions >= 90).argmax()
+threshold_for_90_precision=thresholds[idx_for_90_precision]
+
+y_train_pred_90=(y_scores >= threshold_for_90_precision)
+
+prec_scr=precision_score(y_train_5, y_train_pred_90)
+print(prec_scr)
