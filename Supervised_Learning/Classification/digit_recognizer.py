@@ -99,3 +99,5 @@ y_train_pred_90=(y_scores >= threshold_for_90_precision)
 
 prec_scr=precision_score(y_train_5, y_train_pred_90)
 print(prec_scr)
+recall_at_90_precision=recall_score(y_train_5, y_train_pred_90)
+print(recall_at_90_precision)
