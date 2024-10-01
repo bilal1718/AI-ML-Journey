@@ -101,3 +101,6 @@ prec_scr=precision_score(y_train_5, y_train_pred_90)
 print(prec_scr)
 recall_at_90_precision=recall_score(y_train_5, y_train_pred_90)
 print(recall_at_90_precision)
+
+from sklearn.metrics import roc_curve
+fpr, tpr, thresholds=roc_curve(y_train_5, y_scores)
