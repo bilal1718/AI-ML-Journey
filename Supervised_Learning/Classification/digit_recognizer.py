@@ -102,6 +102,10 @@ print(prec_scr)
 recall_at_90_precision=recall_score(y_train_5, y_train_pred_90)
 print(recall_at_90_precision)
 
+
+##################################################
+
+# ROC Curve
 from sklearn.metrics import roc_curve
 fpr, tpr, thresholds=roc_curve(y_train_5, y_scores)
 
@@ -110,4 +114,8 @@ idx_for_threshold_at_90=(thresholds <= threshold_for_90_precision).argmax()
 
 tpr_90, fpr_90=tpr[idx_for_threshold_at_90], fpr[idx_for_threshold_at_90]
 
-
+plt.plot(fpr, tpr, linewidth=2, label="ROC Curve")
+plt.plot([0,1], [0,1], 'k:', label="Random Classifier's ROC curve")
+plt.plot([fpr_90], [tpr_90], "ko", label="Threshold for 90% precision")
+[...]
+plt.show()
