@@ -119,3 +119,7 @@ plt.plot([0,1], [0,1], 'k:', label="Random Classifier's ROC curve")
 plt.plot([fpr_90], [tpr_90], "ko", label="Threshold for 90% precision")
 [...]
 plt.show()
+
+from sklearn.metrics import roc_auc_score
+roc_auc_score(y_train_5, y_scores)
+
