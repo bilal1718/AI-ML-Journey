@@ -135,3 +135,7 @@ plt.plot(recalls_forest, precisions_forest, "b-", linewidth=2, label="Random For
 plt.plot(recall, precisions, "--", linewidth=2, label="SGD")
 [...]
 plt.show()
+
+y_train_pred_forest=y_probas_forest[:,1] >= 0.5
+f1_score(y_train_5, y_train_pred_forest)
+roc_auc_score(y_train_5, y_scores_forest)
