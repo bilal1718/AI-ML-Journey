@@ -129,3 +129,9 @@ forest_clf=RandomForestClassifier(random_state=42)
 y_probas_forest=cross_val_predict(forest_clf, X_train, y_train_5, cv=3, method="predict_proba")
 y_scores_forest=y_probas_forest[:,1]
 precisions_forest, recalls_forest, thresholds_forest=precision_recall_curve(y_train_5, y_scores_forest)
+
+plt.plot(recalls_forest, precisions_forest, "b-", linewidth=2, label="Random Forest")
+
+plt.plot(recall, precisions, "--", linewidth=2, label="SGD")
+[...]
+plt.show()
