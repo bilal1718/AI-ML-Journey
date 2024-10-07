@@ -139,3 +139,8 @@ plt.show()
 y_train_pred_forest=y_probas_forest[:,1] >= 0.5
 f1_score(y_train_5, y_train_pred_forest)
 roc_auc_score(y_train_5, y_scores_forest)
+
+
+#################################################
+
+# MultiClass Classification
