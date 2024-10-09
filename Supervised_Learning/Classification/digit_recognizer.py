@@ -144,3 +144,9 @@ roc_auc_score(y_train_5, y_scores_forest)
 #################################################
 
 # MultiClass Classification
+
+from sklearn.svm import SVC
+
+svm_clf=SVC(random_state=42)
+svm_clf.fit(X_train[:2000], y_train[:2000])
+svm_clf.predict([some_digit])
