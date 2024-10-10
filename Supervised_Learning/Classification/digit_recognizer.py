@@ -153,3 +153,5 @@ svm_clf.predict([some_digit])
 
 some_digit_scores=svm_clf.decision_function([some_digit])
 some_digit_scores.round(2)
+
+class_id=some_digit_scores.argmax()
