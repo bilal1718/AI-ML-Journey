@@ -150,3 +150,6 @@ from sklearn.svm import SVC
 svm_clf=SVC(random_state=42)
 svm_clf.fit(X_train[:2000], y_train[:2000])
 svm_clf.predict([some_digit])
+
+some_digit_scores=svm_clf.decision_function([some_digit])
+some_digit_scores.round(2)
