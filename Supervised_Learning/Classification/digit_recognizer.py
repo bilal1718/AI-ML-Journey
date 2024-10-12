@@ -155,3 +155,9 @@ some_digit_scores=svm_clf.decision_function([some_digit])
 some_digit_scores.round(2)
 
 class_id=some_digit_scores.argmax()
+
+from sklearn.multiclass import OneVsRestClassifier
+
+ovr_clf=OneVsRestClassifier(SVC(random_state=42))
+ovr_clf.fit(X_train[:2000], y_train[:2000])
+ovr_clf.predict([some_digit])
