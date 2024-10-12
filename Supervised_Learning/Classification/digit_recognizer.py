@@ -164,3 +164,9 @@ ovr_clf.predict([some_digit])
 sdg_clf.decision_function([some_digit]).round()
 
 cross_val_score(sdg_clf, X_train, y_train, cv=3, scoring="accuracy")
+
+from sklearn.preprocessing import StandardScaler
+
+scaler=StandardScaler()
+X_train_scaled=scaler.fit_transform(X_train.astype("float64"))
+cross_val_score(sdg_clf, X_train_scaled, y_train, cv=3, scoring="accuracy")
