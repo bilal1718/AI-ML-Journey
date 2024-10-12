@@ -161,3 +161,4 @@ from sklearn.multiclass import OneVsRestClassifier
 ovr_clf=OneVsRestClassifier(SVC(random_state=42))
 ovr_clf.fit(X_train[:2000], y_train[:2000])
 ovr_clf.predict([some_digit])
+sdg_clf.decision_function([some_digit]).round()
