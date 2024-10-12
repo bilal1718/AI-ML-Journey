@@ -162,3 +162,5 @@ ovr_clf=OneVsRestClassifier(SVC(random_state=42))
 ovr_clf.fit(X_train[:2000], y_train[:2000])
 ovr_clf.predict([some_digit])
 sdg_clf.decision_function([some_digit]).round()
+
+cross_val_score(sdg_clf, X_train, y_train, cv=3, scoring="accuracy")
