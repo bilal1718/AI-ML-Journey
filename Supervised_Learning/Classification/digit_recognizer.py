@@ -178,5 +178,6 @@ cross_val_score(sdg_clf, X_train_scaled, y_train, cv=3, scoring="accuracy")
 
 from sklearn.metrics import ConfusionMatrixDisplay
 y_train_pred=cross_val_predict(sdg_clf, X_train_scaled, y_train, cv=3)
-ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred, normalize="true", values_format=".0%")
+sample_weight=(y_train_pred != y_train)
+ConfusionMatrixDisplay.from_predictions(y_train, y_train_pred,sample_weight=sample_weight, normalize="true", values_format=".0%")
 plt.show()
