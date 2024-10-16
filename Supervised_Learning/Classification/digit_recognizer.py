@@ -184,3 +184,6 @@ plt.show()
 
 cl_a, cl_b='3','5'
 X_aa=X_train[(y_train == cl_a) & (y_train_pred == cl_a)]
+X_ab=X_train[(y_train == cl_a) & (y_train_pred == cl_b)]
+X_ba=X_train[(y_train == cl_b) & (y_train_pred == cl_a)]
+X_bb=X_train[(y_train == cl_b) & (y_train_pred == cl_b)]
