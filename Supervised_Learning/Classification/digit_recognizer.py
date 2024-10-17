@@ -194,3 +194,8 @@ X_bb=X_train[(y_train == cl_b) & (y_train_pred == cl_b)]
 
 # MultiLabel Classification
 
+import numpy as np
+from sklearn.neighbors import KNeighborsClassifier
+y_train_large=(y_train >= '7')
+y_train_odd=(y_train.astype('int8') % 2 ==1)
+y_multilabel=np.c[y_train_large, y_train_odd]
