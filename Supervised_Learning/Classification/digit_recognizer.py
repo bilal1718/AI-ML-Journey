@@ -202,3 +202,4 @@ y_multilabel=np.c[y_train_large, y_train_odd]
 
 knn_clf=KNeighborsClassifier()
 knn_clf.fit(X_train, y_multilabel)
+knn_clf.predict([some_digit])
