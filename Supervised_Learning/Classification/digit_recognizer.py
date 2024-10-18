@@ -203,3 +203,6 @@ y_multilabel=np.c[y_train_large, y_train_odd]
 knn_clf=KNeighborsClassifier()
 knn_clf.fit(X_train, y_multilabel)
 knn_clf.predict([some_digit])
+
+y_train_knn_pred=cross_val_predict(knn_clf, X_train, y_multilabel, cv=3)
+f1_score(y_multilabel, y_train_knn_pred, average="macro")
