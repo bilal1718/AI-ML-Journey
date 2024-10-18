@@ -211,3 +211,5 @@ from sklearn.multioutput import ClassifierChain
 
 chain_clf=ClassifierChain(SVC(), cv=3, random_state=42)
 chain_clf.fit(X_train[:2000], y_multilabel[:2000])
+
+chain_clf.predict([some_digit])
