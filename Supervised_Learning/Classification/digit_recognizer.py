@@ -206,3 +206,8 @@ knn_clf.predict([some_digit])
 
 y_train_knn_pred=cross_val_predict(knn_clf, X_train, y_multilabel, cv=3)
 f1_score(y_multilabel, y_train_knn_pred, average="macro")
+
+from sklearn.multioutput import ClassifierChain
+
+chain_clf=ClassifierChain(SVC(), cv=3, random_state=42)
+chain_clf.fit(X_train[:2000], y_multilabel[:2000])
