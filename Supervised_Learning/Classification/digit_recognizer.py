@@ -213,3 +213,11 @@ chain_clf=ClassifierChain(SVC(), cv=3, random_state=42)
 chain_clf.fit(X_train[:2000], y_multilabel[:2000])
 
 chain_clf.predict([some_digit])
+
+################################################
+
+# Multioutput Classification
+
+np.random.seed(42)
+noise=np.random.randint(0, 100, len(X_train), 784)
+X_train_mod=X_train + noise
