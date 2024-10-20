@@ -219,5 +219,7 @@ chain_clf.predict([some_digit])
 # Multioutput Classification
 
 np.random.seed(42)
-noise=np.random.randint(0, 100, len(X_train), 784)
+noise=np.random.randint(0, 100, (len(X_train), 784))
 X_train_mod=X_train + noise
+noise=np.random.randint(0, 100, (len(X_test), 784))
+X_test_mod=X_test + noise
