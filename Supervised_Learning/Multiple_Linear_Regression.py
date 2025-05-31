@@ -9,6 +9,7 @@ num_doors = np.array([4, 2, 4, 4, 2, 4, 2, 4, 4, 2])
 price = np.array([20000, 15000, 25000, 12000, 18000, 16000, 27000, 11000, 22000, 17000])
 
 X = np.column_stack((age, mileage, horsepower, num_doors))
+print(X)
 
 X_mean = np.mean(X, axis=0)
 X_std = np.std(X, axis=0)
@@ -34,14 +35,15 @@ print("Weights:", w)
 print("Bias:", b)
 
 y_pred = np.dot(X_scaled, w) + b
+print("Actual Prices:", price)
+print("Predicted Prices:", y_pred)
 
-features = ['Age', 'Mileage', 'Horsepower', 'Num_Doors']
-for i in range(X_scaled.shape[1]):
-    plt.figure()
-    plt.scatter(X[:, i], price, color='blue', label='Actual Price')
-    plt.scatter(X[:, i], (X_scaled[:, i] * w[i] + b), color='red', label='Predicted Price')
-    plt.xlabel(features[i])
-    plt.ylabel('Price')
-    plt.legend()
-    plt.title(f'{features[i]} vs Price')
-    plt.show()
+plt.figure()
+plt.scatter(price, y_pred, color='purple')
+plt.plot([min(price), max(price)], [min(price), max(price)], color='green', linestyle='--')  # Perfect line
+plt.xlabel("Actual Price")
+plt.ylabel("Predicted Price")
+plt.title("Actual vs Predicted Car Prices")
+plt.grid(True)
+plt.show()
+
