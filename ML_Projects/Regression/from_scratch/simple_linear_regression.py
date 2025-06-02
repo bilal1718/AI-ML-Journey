@@ -59,3 +59,15 @@ plt.xlabel('Years Of experience')
 plt.ylabel('Salary')
 plt.title('Years Of experience vs Salary')
 plt.show()
+
+
+MSE=1/m * (np.sum((y_pred - y)**2))
+print("Mean Squared Error is : ", MSE)
+
+y_mean=np.mean(y)
+SS_tot=np.sum((y-y_mean)**2)
+SS_res=np.sum((y-y_pred)**2)
+
+R2= 1-(SS_res/SS_tot)
+
+print("R² Score:", R2)
