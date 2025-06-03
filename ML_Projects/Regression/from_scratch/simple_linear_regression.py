@@ -43,7 +43,7 @@ y_pred=prediction(x,w,b)
 
 print("Final weight (w):", w)
 print("Final bias (b):", b)
-print("Predicted salaries:\n", y_pred)
+# print("Predicted salaries:\n", y_pred)
 
 plt.plot(range(num_iter), cost_history)
 plt.xlabel('Iterations')
