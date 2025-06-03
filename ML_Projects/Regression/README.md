@@ -6,9 +6,10 @@ This folder contains my custom implementation of:
 - Multiple Linear Regression using Stochastic Gradient Descent
 - Multiple Logistic Regression with Log Loss
 - Locally Weighted Regression using Normal Equation
-- Visualizations of MSE and Log Loss
+- Visualizations of Cost vs Iterations in MLR and newton Method, Recall vs. precision in Newton Method,
+   MSE and Log Loss, regression line in SLR
 - Comparisons with Scikit-learn
-- Newton's Method (basic demo)
+- Newton's Method
 
 ## Dataset
 - Salary dataset (Simple Linear Regression)
@@ -16,13 +17,8 @@ This folder contains my custom implementation of:
 - Weather Forecast dataset (Multi Logistic Regression)
 
 ## Files
-- `from_scratch/`: Handwritten ML logic
+- `from_scratch/`: Custom ML logic
 - `sklearn_comparison/`: Validation using sklearn models
-- `plots.ipynb`: Visualizations of MSE, Log Loss
-- `utils.py`: Common helper functions
 - `README.md`: This guide
 
-## Optional Ideas
-- Plot sigmoid function and decision boundaries
-- Add early stopping or learning rate schedule
-- Compare gradient descent vs Newton's Method
+
