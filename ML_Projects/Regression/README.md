@@ -2,18 +2,18 @@
 
 This folder contains my custom implementation of:
 
-- ✅ Simple Linear Regression using Batch Gradient Descent
-- ✅ Multiple Linear Regression using Stochastic Gradient Descent
-- ✅ Multiple Logistic Regression with Log Loss
-- ✅ Locally Weighted Regression using Normal Equation
-- ✅ Visualizations of MSE and Log Loss
-- ✅ Comparisons with Scikit-learn
-- (Optional) Newton's Method (basic demo)
+- Simple Linear Regression using Batch Gradient Descent
+- Multiple Linear Regression using Stochastic Gradient Descent
+- Multiple Logistic Regression with Log Loss
+- Locally Weighted Regression using Normal Equation
+- Visualizations of MSE and Log Loss
+- Comparisons with Scikit-learn
+- Newton's Method (basic demo)
 
 ## Dataset
-- 📊 Salary dataset (Simple Linear Regression)
-- 📊 Student Performance (Multi Linear Regression)
-- 📊 Weather Forecast dataset (Multi Logistic Regression)
+- Salary dataset (Simple Linear Regression)
+- Student Performance (Multi Linear Regression)
+- Weather Forecast dataset (Multi Logistic Regression)
 
 ## Files
 - `from_scratch/`: Handwritten ML logic
