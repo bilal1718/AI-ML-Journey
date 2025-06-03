@@ -2,8 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
-
-
 def shuffle_data(data):
     return data.sample(frac=1).reset_index(drop=True)
 
@@ -12,25 +10,6 @@ def train_test_split(data, test_size):
     train_data=data[:split_point]
     test_data=data[split_point:]
     return train_data, test_data
-
-data=pd.read_csv('datasets/weather_forecast_data.csv')
-data['Rain']=data['Rain'].map({'rain':1, 'no rain':0})
-
-
-shuffled_data=shuffle_data(data)
-train_data , test_data=train_test_split(shuffled_data, 0.2)
-
-train_x=train_data[['Temperature','Humidity','Wind_Speed','Cloud_Cover','Pressure']]
-train_y=train_data['Rain']
-
-train_x = (train_x - train_x.mean(axis=0)) / train_x.std(axis=0)
-
-train_x=train_x.values
-train_y=train_y.values
-
-print('Rain Days: ', train_y.sum()) 
-print('No Rain Days',len(train_y) - train_y.sum())
-
 
 def sigmoid(z):
     z = np.clip(z, -500, 500)
@@ -53,6 +32,27 @@ def gradient_descent(x, y, w, b, m, num_iter, alpha):
         b = b - alpha * d_db
         cost_history[i] = cost_function(x, y, w, b, m)
     return w, b, cost_history
+
+
+data=pd.read_csv('datasets/weather_forecast_data.csv')
+data['Rain']=data['Rain'].map({'rain':1, 'no rain':0})
+
+
+shuffled_data=shuffle_data(data)
+train_data , test_data=train_test_split(shuffled_data, 0.2)
+
+train_x=train_data[['Temperature','Humidity','Wind_Speed','Cloud_Cover','Pressure']]
+train_y=train_data['Rain']
+
+train_x = (train_x - train_x.mean(axis=0)) / train_x.std(axis=0)
+
+train_x=train_x.values
+train_y=train_y.values
+
+print('Rain Days: ', train_y.sum()) 
+print('No Rain Days',len(train_y) - train_y.sum())
+
+
 
 num_iter=1000
 alpha=0.01
